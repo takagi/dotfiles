@@ -1,0 +1,12 @@
+[user]
+	email = kamonama@gmail.com
+	name = Masayuki Takagi
+[core]
+	editor = nano
+[init]
+	defaultBranch = main
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
