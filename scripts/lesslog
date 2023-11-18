@@ -1,0 +1,5 @@
+#!/bin/sh
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+TMP=$(mktemp /tmp/tmp.lesslog.${TIMESTAMP}.XXXXXX)
+less -O $TMP --RAW-CONTROL-CHARS +${1:-0}
+sed -i 's/\x1b\[[0-9:;]*m//g' $TMP

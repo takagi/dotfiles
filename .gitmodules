@@ -1,0 +1,12 @@
+[submodule "rofi-power-menu"]
+	path = submodules/rofi-power-menu
+	url = git@github.com:takagi/rofi-power-menu.git
+[submodule "wallpapers"]
+	path = submodules/wallpapers
+	url = git@github.com:takagi/wallpapers.git
+[submodule "dotfiles-secrets"]
+	path = submodules/dotfiles-secrets
+	url = git@github.com:takagi/dotfiles-secrets.git
+[submodule "polybar-pulseaudio-control"]
+	path = submodules/polybar-pulseaudio-control
+	url = git@github.com:takagi/polybar-pulseaudio-control.git

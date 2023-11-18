@@ -1,0 +1,7 @@
+せん	------------------------------	名詞	
+す	■	名詞	Black Square U+25A0
+み	□	名詞	White Square U+25A1
+す	◼	名詞	Black Medium Square U+25FC
+み	◻	名詞	White Medium Square U+25FB
+すみ	■	名詞	Black Square U+25A0
+すみ	◼	名詞	Black Medium Square U+25FC
