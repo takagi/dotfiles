@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: ./change-resolution {4k|fhd}" >&2
+  exit 1
+fi
+
+XRES_FILE="$HOME/wrk/dotfiles/.Xresources"
+ROFI_FILE="$HOME/.config/rofi/config.rasi"
+POLYBAR_FILE="$HOME/.config/polybar/config.ini"
+XPROFILE_FILE="$HOME/.xprofile"
+if [[ ! -f "$XRES_FILE" ]]; then
+  echo "Missing $XRES_FILE; expected existing lines to toggle." >&2
+  exit 1
+fi
+if [[ ! -f "$ROFI_FILE" ]]; then
+  echo "Missing $ROFI_FILE." >&2
+  exit 1
+fi
+if [[ ! -f "$POLYBAR_FILE" ]]; then
+  echo "Missing $POLYBAR_FILE." >&2
+  exit 1
+fi
+if [[ ! -f "$XPROFILE_FILE" ]]; then
+  echo "Missing $XPROFILE_FILE." >&2
+  exit 1
+fi
+
+case "$1" in
+  4k)
+    #xrandr --output HDMI-0 --mode 3840x2160
+    sed -i --follow-symlinks -E \
+      -e 's/^!?Xft\.dpi: 96/!Xft.dpi: 96/' \
+      -e 's/^!?Xft\.dpi: 192/Xft.dpi: 192/' \
+      -e 's/^!?Xcursor\.size: 32/!Xcursor.size: 32/' \
+      -e 's/^!?Xcursor\.size: 48/Xcursor.size: 48/' \
+      "$XRES_FILE"
+    if [[ -f "$ROFI_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^[[:space:]]*/\*[[:space:]]*(dpi:[[:space:]]*192;)[[:space:]]*\*/@    \1@' \
+        -e 's@^[[:space:]]*(dpi:[[:space:]]*96;)@/*  \1   */@' \
+        "$ROFI_FILE"
+    fi
+    if [[ -f "$POLYBAR_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^([[:space:]]*);[[:space:]]*(dpi[[:space:]]*=[[:space:]]*192)@\1\2@' \
+        -e 's@^([[:space:]]*)(dpi[[:space:]]*=[[:space:]]*96)@\1; \2@' \
+        "$POLYBAR_FILE"
+    fi
+    if [[ -f "$XPROFILE_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^(xrandr[[:space:]]+--output[[:space:]]+HDMI-0[[:space:]]+--mode[[:space:]]+).*$@\13840x2160@' \
+        -e 's@^#?xinput set-prop "Kensington Expert Wireless TB Mouse" "libinput Accel Speed" 0\.5$@xinput set-prop "Kensington Expert Wireless TB Mouse" "libinput Accel Speed" 0.5@' \
+        -e 's@^#?xinput set-prop "Masayuki Takagi plum47 Mouse" "libinput Accel Speed" 1$@xinput set-prop "Masayuki Takagi plum47 Mouse" "libinput Accel Speed" 1@' \
+        "$XPROFILE_FILE"
+    fi
+    ;;
+  fhd)
+    #xrandr --output HDMI-0 --mode 1920x1080
+    sed -i --follow-symlinks -E \
+      -e 's/^!?Xft\.dpi: 96/Xft.dpi: 96/' \
+      -e 's/^!?Xft\.dpi: 192/!Xft.dpi: 192/' \
+      -e 's/^!?Xcursor\.size: 32/Xcursor.size: 32/' \
+      -e 's/^!?Xcursor\.size: 48/!Xcursor.size: 48/' \
+      "$XRES_FILE"
+    if [[ -f "$ROFI_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^[[:space:]]*/\*[[:space:]]*(dpi:[[:space:]]*96;)[[:space:]]*\*/@    \1@' \
+        -e 's@^[[:space:]]*(dpi:[[:space:]]*192;)@/*  \1  */@' \
+        "$ROFI_FILE"
+    fi
+    if [[ -f "$POLYBAR_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^([[:space:]]*);[[:space:]]*(dpi[[:space:]]*=[[:space:]]*96)@\1\2@' \
+        -e 's@^([[:space:]]*)(dpi[[:space:]]*=[[:space:]]*192)@\1; \2@' \
+        "$POLYBAR_FILE"
+    fi
+    if [[ -f "$XPROFILE_FILE" ]]; then
+      sed -i --follow-symlinks -E \
+        -e 's@^(xrandr[[:space:]]+--output[[:space:]]+HDMI-0[[:space:]]+--mode[[:space:]]+).*$@\11920x1080@' \
+        -e 's@^#?xinput set-prop "Kensington Expert Wireless TB Mouse" "libinput Accel Speed" 0\.5$@#xinput set-prop "Kensington Expert Wireless TB Mouse" "libinput Accel Speed" 0.5@' \
+        -e 's@^#?xinput set-prop "Masayuki Takagi plum47 Mouse" "libinput Accel Speed" 1$@#xinput set-prop "Masayuki Takagi plum47 Mouse" "libinput Accel Speed" 1@' \
+        "$XPROFILE_FILE"
+    fi
+    ;;
+  *)
+    echo "Unknown profile: $1 (use 4k or fhd)" >&2
+    exit 1
+    ;;
+esac
+
+read -r -p "Log out now to apply changes? [y/N] " reply
+case "$reply" in
+  y|Y)
+    loginctl terminate-session "$XDG_SESSION_ID"
+    ;;
+  *)
+    echo "Done."
+    ;;
+esac

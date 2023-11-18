@@ -1,0 +1,5 @@
+#!/bin/sh
+xrandr --output HDMI-0 --mode 3840x2160
+xinput set-prop "Kensington Expert Wireless TB Mouse" "libinput Accel Speed" 0.5
+xinput set-prop "Masayuki Takagi plum47 Mouse" "libinput Accel Speed" 1
+

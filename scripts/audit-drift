@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#
+# Surface pacman packages that are frequently invoked (per zenlog history)
+# but are absent from pkgname/yay.list*. The output is a ranked list of
+# candidates to add to install.sh.
+#
+# Environment overrides:
+#   MIN_COUNT   minimum invocation count to include (default: 5)
+#   ZENLOG_DIR  zenlog data directory (default: ~/.zenlog)
+#
+# Limitations:
+#   - Aliases (e.g. `g` for git) are not resolved; counts are per the typed
+#     command name, so aliased invocations don't accrue to the underlying
+#     binary.
+#   - Shell builtins and binaries outside pacman's ownership (cargo/go/npm
+#     installed tools, ~/.local/bin) are filtered out by pacman -Qoq failing.
+
+set -euo pipefail
+
+MIN_COUNT="${MIN_COUNT:-5}"
+ZENLOG_DIR="${ZENLOG_DIR:-$HOME/.zenlog}"
+
+cmds_dir="${ZENLOG_DIR}/cmds"
+if [ ! -d "$cmds_dir" ]; then
+    echo "no zenlog data at $cmds_dir" >&2
+    exit 1
+fi
+
+dotfiles_dir=$(dirname "$(realpath "$0")")/..
+declared=$(cat "${dotfiles_dir}"/pkgname/yay.list \
+                "${dotfiles_dir}"/pkgname/yay.list.* 2>/dev/null \
+           | grep -v '^[[:space:]]*$' | sort -u)
+
+for d in "$cmds_dir"/*/; do
+    cmd=$(basename "$d")
+    count=$(find "$d" -mindepth 1 \( -type l -o -type f \) 2>/dev/null | wc -l)
+    [ "$count" -ge "$MIN_COUNT" ] || continue
+    bin=$(command -v -- "$cmd" 2>/dev/null) || continue
+    [ -x "$bin" ] && [ -f "$bin" ] || continue
+    pkg=$(pacman -Qoq -- "$bin" 2>/dev/null) || continue
+    printf '%s\t%s\t%s\n' "$count" "$pkg" "$cmd"
+done | awk -F '\t' -v decl="$declared" '
+    BEGIN {
+        n = split(decl, a, "\n")
+        for (i = 1; i <= n; i++) if (a[i] != "") d[a[i]] = 1
+    }
+    !($2 in d) {
+        sum[$2] += $1
+        cmds[$2] = cmds[$2] (cmds[$2] ? "," : "") $3
+    }
+    END {
+        for (p in sum) printf "%d\t%s\t(%s)\n", sum[p], p, cmds[p]
+    }
+' | sort -rn

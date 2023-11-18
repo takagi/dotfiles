@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eux
+
+sudo sed -i 's/firefox.desktop;google-chrome.desktop;/google-chrome.desktop;/' /usr/share/applications/mimeinfo.cache
