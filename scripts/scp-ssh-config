@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -eu
+
+target=$1
+scp -r ~/.ssh/{id_rsa,id_rsa.pub,config} ${target}:~/.ssh/
