@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eux
+
+$HOME/wrk/picom/build/src/picom --experimental-backend --daemon
