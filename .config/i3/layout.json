@@ -1,0 +1,47 @@
+{
+    // vsplit container with 1 children
+    "layout": "splitv",
+    "type": "con",
+    "nodes": [
+        {
+            // stacked split container with 1 children
+            "layout": "stacked",
+            "percent": 0.5,
+            "type": "con",
+            "nodes": [
+                {
+                    "type": "con",
+                    "swallows": [
+                        {
+                            "class": "^kitty$"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+{
+    // vsplit container with 1 children
+    "layout": "splitv",
+    "type": "con",
+    "nodes": [
+        {
+            // stacked split container with 1 children
+            "layout": "stacked",
+            "percent": 0.5,
+            "type": "con",
+            "nodes": [
+                {
+                    "type": "con",
+                    "swallows": [
+                        {
+                            "class": "^kitty$"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
