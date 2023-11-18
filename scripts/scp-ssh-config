@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eu
+
+target=$1
+ssh ${target} mkdir ~/.ssh
+scp ~/.ssh/{id_rsa,id_rsa.pub,config} ${target}:~/.ssh/
