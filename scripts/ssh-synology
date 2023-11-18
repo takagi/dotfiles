@@ -1,0 +1,5 @@
+#!/usr/bin/expect -f
+spawn ssh synology.local
+expect "mtakagi@synology.local's password:"
+send -- "[exec pass chrome/synology]\r"
+interact

@@ -1,0 +1,42 @@
+# secrets
+source $HOME/wrk/dotfiles/install/../submodules/dotfiles-secrets/secrets
+
+# Source aliases
+if [[ -f ~/.bash_aliases ]]; then
+    source $HOME/.bash_aliases
+fi
+
+# PATH
+PATH=$HOME/.go/bin:$HOME/.cargo/bin:$HOME/.local/bin:${PATH:-}
+
+# go
+export GOPATH=$HOME/.go
+
+# history
+#shopt -s histappend
+#PROMPT_COMMAND='history -a; history -n'
+HISTSIZE=100000
+HISTFILESIZE=100000
+
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --reverse --pointer=">"'
+eval "$(fzf --bash)"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude ".*"'
+
+# zenlog
+export ZENLOG_SRC_DIR=$HOME/wrk/zenlog/
+#ZENLOG_NO_DEFAULT_PROMPT=1
+#ZENLOG_NO_DEFAULT_BINDING=1
+ZENLOG_VIEWER=less
+ZENLOG_RAW_VIEWER=google-chrome
+source <(zenlog basic-bash-setup)
+__zenlog_history__() {
+    local cmd
+    READLINE_LINE=$(zenlog select-command)
+    if [[ -z "$READLINE_POINT" ]]; then
+        echo "$READLINE_LINE"
+    else
+        READLINE_POINT=0x7fffffff
+    fi
+}
+bind -x '"\C-r": __zenlog_history__'
