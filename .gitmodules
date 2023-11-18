@@ -1,0 +1,6 @@
+[submodule "rofi-power-menu"]
+	path = rofi-power-menu
+	url = git@github.com:takagi/rofi-power-menu.git
+[submodule "wallpapers"]
+	path = wallpapers
+	url = git@github.com:takagi/wallpapers.git
