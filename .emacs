@@ -6,7 +6,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(custom-enabled-themes '(tango-dark))
+ '(custom-enabled-themes '(monokai-pro))
+ '(custom-safe-themes
+   '("6f4b6983793f064266b6df2e9244108abdee16acdf9733047e544b3d3012f4a2"
+     default))
  '(package-selected-packages
    '(atom-one-dark-theme cape cmake-mode consult consult-dir
                          consult-eglot corfu corfu-terminal
@@ -25,6 +28,16 @@
  '(default ((t (:family "Noto Sans Mono" :height 120))))
  '(mode-line ((t (:background "#282c34" :foreground "#bbc2cf" :box nil))))
  '(mode-line-inactive ((t (:background "#21242b" :foreground "#5B6268" :box nil)))))
+
+(custom-theme-set-faces
+ 'monokai-pro
+ '(default ((t (:background "#080808" :foreground "#fcfcfa"))))
+ '(fringe ((t (:background "#080808"))))
+ '(font-lock-doc-face ((t (:foreground "#ffd866"))))                         ; yellow
+ '(font-lock-doc-string-face ((t (:foreground "#ffd866"))))                  ; yellow
+ '(font-lock-variable-name-face ((t (:foreground "#fc9867"))))               ; orange
+ '(show-paren-match ((t (:background "#5b595c" :weight bold))))              ; fg-4
+ '(eglot-highlight-symbol-face ((t (:background "#403e41" :weight bold)))))  ; bg+2
 
 ;;; Font
 (set-fontset-font t 'japanese-jisx0208
