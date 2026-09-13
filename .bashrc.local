@@ -23,6 +23,9 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --pointer=">"'
 eval "$(fzf --bash)"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude ".*"'
 
+# zoxide
+eval "$(zoxide init bash)"
+
 # zenlog
 export ZENLOG_SRC_DIR=$HOME/wrk/zenlog/
 #ZENLOG_NO_DEFAULT_PROMPT=1
