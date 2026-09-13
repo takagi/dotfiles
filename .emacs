@@ -11,10 +11,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Noto Sans Mono" :height 120))))
+ '(mode-line ((t (:background "#282c34" :foreground "#bbc2cf" :box nil))))
+ '(mode-line-inactive ((t (:background "#21242b" :foreground "#5B6268" :box nil)))))
 
 ;;; Font
-(custom-set-faces '(default ((t (:family "Noto Sans Mono")))))
 (set-fontset-font t 'japanese-jisx0208
                   (font-spec :family "Noto sans CJK JP"))
 
