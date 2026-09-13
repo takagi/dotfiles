@@ -169,7 +169,9 @@
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :custom
+  (vertico-count 16))
 
 ;;; orderless
 (use-package orderless
