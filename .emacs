@@ -128,6 +128,12 @@
 ;;; Hide tool bar
 (tool-bar-mode 0)
 
+;;; Hide menu bar
+(menu-bar-mode -1)
+
+;;; Column number in mode line
+(column-number-mode 1)
+
 ;;; Symbol font
 (setq use-default-font-for-symbols nil)
 
