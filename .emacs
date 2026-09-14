@@ -53,6 +53,33 @@
         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
+;;; Eglot
+(use-package eglot
+  :hook (python-mode . eglot-ensure))
+
+(defun my/eglot-imenu ()
+  "Top-level-only, kind-grouped version of `eglot-imenu'."
+  (unless (eglot-server-capable :documentSymbolProvider)
+    (cl-return-from my/eglot-imenu))
+  (let* ((res (eglot--request (eglot--current-server-or-lose)
+                               :textDocument/documentSymbol
+                               `(:textDocument ,(eglot--TextDocumentIdentifier))
+                               :cancel-on-input non-essential))
+         groups)
+    (cl-loop for s across res
+             do (cl-destructuring-bind (&key name range kind &allow-other-keys) s
+                  (let* ((pos (car (eglot-range-region range)))
+                         (kind-name (or (alist-get kind eglot--symbol-kind-names) "Other"))
+                         (cell (assoc kind-name groups)))
+                    (if cell
+                        (push (cons name pos) (cdr cell))
+                      (push (cons kind-name (list (cons name pos))) groups)))))
+    (mapcar (lambda (g) (cons (car g) (nreverse (cdr g)))) (nreverse groups))))
+
+(add-hook 'eglot-managed-mode-hook
+          (lambda ()
+            (add-function :before-until (local 'imenu-create-index-function) #'my/eglot-imenu)))
+
 ;;; Go
 (use-package go-mode
   :ensure t
