@@ -219,3 +219,7 @@
   (setq doom-modeline-icon t)
   (setq doom-modeline-lsp nil)
   (setq doom-modeline-major-mode-icon nil))
+;;; sudo-edit
+(use-package sudo-edit
+  :ensure t)
+
