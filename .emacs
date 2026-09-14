@@ -88,12 +88,14 @@
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save))
+
 (use-package gotest
   :after go-mode
   :bind (:map go-mode-map
               ("C-c t t" . go-test-current-test-verbose)
               ("C-c t f" . go-test-current-file-verbose)
               ("C-c t p" . go-test-current-project)))
+
 (progn
   (defun go-test--with-verbose (fn)
     "Temporarily run go-test FN with '-v' flag."
@@ -103,10 +105,12 @@
       (unwind-protect
           (funcall fn)
         (advice-remove 'go-test--go-test #'go-test--go-test-with-verbose))))
+
   (defun go-test-current-test-verbose ()
     "Run `go-test-current-test` with -v flag temporarily."
     (interactive)
     (go-test--with-verbose #'go-test-current-test))
+
   (defun go-test-current-file-verbose ()
     "Run `go-test-current-file` with -v flag temporarily."
     (interactive)
