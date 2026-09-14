@@ -37,7 +37,10 @@
  '(font-lock-doc-string-face ((t (:foreground "#ffd866"))))                  ; yellow
  '(font-lock-variable-name-face ((t (:foreground "#fc9867"))))               ; orange
  '(show-paren-match ((t (:background "#5b595c" :weight bold))))              ; fg-4
- '(eglot-highlight-symbol-face ((t (:background "#403e41" :weight bold)))))  ; bg+2
+ '(eglot-highlight-symbol-face ((t (:background "#403e41" :weight bold))))   ; bg+2
+ '(vertico-current ((t (:background "#403e41" :foreground "#ffd866" :weight bold :extend t))))  ; bg+2 + yellow
+ '(vertical-border ((t (:foreground "#939293"))))                            ; fg-2
+ '(minibuffer-prompt ((t (:foreground "#a9dc76" :weight bold)))))            ; green
 
 ;;; Font
 (set-fontset-font t 'japanese-jisx0208
