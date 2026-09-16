@@ -34,6 +34,9 @@ wget https://github.com/takagi.keys -O ~/.ssh/authorized_keys
 sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo systemctl restart sshd.service
 
+# paccache
+sudo systemctl enable paccache.timer
+
 # lightdm
 sudo systemctl enable lightdm
 sudo sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/' /etc/lightdm/lightdm.conf
