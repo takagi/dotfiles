@@ -207,6 +207,10 @@
   :custom
   (vertico-count 16))
 
+;;; recentf
+(recentf-mode 1)
+(setq recentf-max-saved-items 200)
+
 ;;; orderless
 (use-package orderless
   :ensure t
@@ -218,8 +222,9 @@
   :ensure t
   :bind (("C-x l" . consult-locate)
          ("C-x f" . project-find-file)
-         ("C-s" . consult-line)
-         ("C-c i" . consult-imenu)))
+         ("C-s"   . consult-line)
+         ("C-c i" . consult-imenu)
+         ("C-x b" . consult-buffer))
 
 ;;; treemacs
 (use-package treemacs
