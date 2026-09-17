@@ -259,3 +259,22 @@
 (use-package sudo-edit
   :ensure t)
 
+(defun my/git-permalink-current-line ()
+  (interactive)
+  (let* ((line (line-number-at-pos))
+         (commit (string-trim
+                  (shell-command-to-string "git rev-parse HEAD")))
+         (remote (string-trim
+                  (shell-command-to-string
+                   "git config --get remote.origin.url")))
+         (path (file-relative-name buffer-file-name
+                                   (vc-root-dir)))
+         (url (replace-regexp-in-string
+               "\\`git@\\([^:]+\\):\\(.+\\)\\.git\\'"
+               "https://\\1/\\2"
+               remote)))
+    (kill-new
+     (format "%s/blob/%s/%s#L%d"
+             url commit path line))
+    (message "Copied permalink")))
+
