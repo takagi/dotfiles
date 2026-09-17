@@ -1,3 +1,4 @@
 [global]
+font = Noto Sans 10, Noto Sans CJK JP 10
 origin = top-left
 mouse_left_click = do_action, close_current
