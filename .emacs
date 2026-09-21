@@ -233,6 +233,9 @@
          ("C-s"   . consult-line)
          ("C-c i" . consult-imenu)
          ("C-x b" . consult-buffer))
+  :init
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
 
 ;;; treemacs
 (use-package treemacs
