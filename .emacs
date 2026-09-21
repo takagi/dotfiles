@@ -80,6 +80,14 @@
           (lambda ()
             (add-function :before-until (local 'imenu-create-index-function) #'my/eglot-imenu)))
 
+(defun my/eglot-show-call-hierarchy-caller ()
+  (interactive)
+  (eglot-show-call-hierarchy 'incoming))
+
+(defun my/eglot-show-call-hierarchy-callee ()
+  (interactive)
+  (eglot-show-call-hierarchy 'base))
+
 ;;; Go
 (use-package go-mode
   :ensure t
