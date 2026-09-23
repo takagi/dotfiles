@@ -166,7 +166,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+z exec --no-startup-id rofi -show power
+bindsym $mod+z exec --no-startup-id xset dpms force off
+bindsym $mod+Shift+z exec --no-startup-id rofi -show power
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
