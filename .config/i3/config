@@ -234,6 +234,7 @@ bindsym $mod+Tab [con_mark=_back] focus
 
 for_window [class="org.gnome.Nautilus"] floating enable
 for_window [class="minecraft-launcher"] floating enable
+for_window [window_role="GtkFileChooserDialog"] resize set 1200 950, move position center
 
 #
 exec_always --no-startup-id ~/.config/polybar/launch.sh
