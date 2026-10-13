@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 /dev/sdX" >&2
+    exit 1
+fi
+
+DEV="$1"
+
+if [ ! -b "$DEV" ]; then
+    echo "Error: $DEV is not a block device" >&2
+    exit 1
+fi
+
+for part in "${DEV}"?*; do
+    if mountpoint -q "$part" 2>/dev/null || grep -q "^$part " /proc/mounts; then
+        echo "Error: $part is mounted. Unmount it first." >&2
+        exit 1
+    fi
+done
+
+echo "=== Target device info ==="
+lsblk -o NAME,SIZE,MODEL,MOUNTPOINT "$DEV"
+echo
+
+read -r -p "This will ERASE ALL DATA on $DEV. Type the device path again to confirm: " CONFIRM
+if [ "$CONFIRM" != "$DEV" ]; then
+    echo "Confirmation did not match. Aborting." >&2
+    exit 1
+fi
+
+sudo parted -s "$DEV" mklabel msdos
+sudo parted -s "$DEV" mkpart primary 0% 100%
+sudo mkfs.exfat -F -c 32768 "${DEV}1"
+
+echo "Done. Insert the card into the Handycam to let it create its directory structure."
