@@ -50,17 +50,16 @@ EOF
 
 # DPMS
 cat <<EOF | sudo tee /etc/X11/xorg.conf.d/10-monitor.conf > /dev/null
-Section "Monitor"
-    Identifier "LVDS0"
-    Option "DPMS" "true"
-EndSection
-
-Section "ServerLayout"
-    Identifier "ServerLayout0"
+Section "ServerFlags"
+    Option "BlankTime"   "0"
     Option "StandbyTime" "0"
     Option "SuspendTime" "0"
-    Option "OffTime"     "15"
-    Option "BlankTime"   "0"
+    Option "OffTime"     "0"
+EndSection
+
+Section "Monitor"
+    Identifier "LVDS0"
+    Option "DPMS" "false"
 EndSection
 EOF
 
